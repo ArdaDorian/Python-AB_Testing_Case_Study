@@ -1,3 +1,5 @@
+# Arda Dindar
+# Data is provided by Aman Kharwal
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -20,9 +22,12 @@ null_dataColumns = ["Impressions", "Reach", "Website Clicks", "Searches", "Conte
 for data in null_dataColumns:
     control_data[data].fillna(value=control_data[data].mean().astype(int), inplace=True)
 
+# merging two tables in one table
 ab_data = control_data.merge(test_data, how= "outer")
 ab_data = ab_data.sort_values(["Date"])
 ab_data = ab_data.reset_index(drop=True)
+
+# creating two function for plotting. It would make code shorter and understandable
 
 def createScatterFigure(_x, _y, _size,_source):
     fig = px.scatter(data_frame = ab_data, 
@@ -55,5 +60,6 @@ value = [sum(control_data["Purchases"]), sum(test_data["Purchases"])]
 fig_totalPurchases = createPieFigure("Total Purchases Control vs Test", label, value)
 fig_totalPurchases.show()
 
+#Relationship between added to cart and purchases for each campaign.
 fig_addedToCart_purchases = createScatterFigure("Added to Cart", "Purchases", "Purchases", "Campaign Name")
 fig_addedToCart_purchases.show()
